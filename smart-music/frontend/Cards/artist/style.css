@@ -1,0 +1,165 @@
+/* General Body Styles */
+body {
+    background-color: #121212; /* Dark background for the canvas to sit on */
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    overflow: hidden; /* Prevents scrollbars from the canvas */
+
+    /* --- FIX: Added flexbox properties for centering --- */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Styles for the background animation canvas */
+#background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Place it behind the main content */
+}
+
+/* Ensure the main content is on top of the canvas */
+main.container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px; /* Space between elements */
+}
+
+/* Main Heading */
+h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Flex container for the top input row */
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+/* Container for the artist input and submit button */
+.input-wrapper {
+    display: flex;
+    flex-grow: 1; /* Allows this element to take up available space */
+    background-color: #282828;
+    border-radius: 50px;
+    padding: 5px;
+}
+
+/* Artist Name Input Field */
+#artist-input {
+    flex-grow: 1;
+    background-color: transparent;
+    border: none;
+    color: #FFFFFF;
+    font-size: 1rem;
+    padding: 10px 20px;
+    outline: none;
+}
+
+#artist-input::placeholder {
+    color: #888888;
+}
+
+/* Base styles for all buttons */
+.btn {
+    border-radius: 50px;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    -webkit-tap-highlight-color: transparent; /* Removes flash on mobile tap */
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn:active {
+    transform: scale(0.98); /* Adds a press-down effect */
+}
+
+/* Green accent buttons */
+.btn-green {
+    background-color: #1ED760;
+    color: #000000;
+}
+
+/* Arrow Button specific style */
+.btn-arrow {
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-play {
+    width: 40%;
+    max-width: 200px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 10px;
+}
+
+/* Selected Artists Container */
+#selected-artists-box {
+    width: 100%;
+    min-height: 150px;
+    background-color: #282828;
+    border-radius: 30px;
+    padding: 25px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Allows artist pills to wrap to the next line */
+    gap: 10px;
+}
+
+#placeholder-text {
+    color: #888888;
+    font-size: 1.1rem;
+}
+
+/* Artist Pill Styles */
+.artist-pill {
+    background-color: #535353;
+    color: #FFFFFF;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.artist-pill:hover {
+    background-color: #e53e3e; /* Red color on hover */
+}
+
+.remove-btn {
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1;
+}

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Horizontal 70-30 Layout</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+  <div class="container">
+    <!-- Top 70% Section -->
+    <div class="top-section">
+      
+      <a href="profile.html">
+      <div class="profile-avatar" id="profileAvatar" title="Profile">
+        <span>MK</span>
+     
+  </div>
+ </a> 
+    <div class="top-menu">
+    <button class="nav-button">Home</button>
+    <button class="nav-button">Library</button>
+    <button class="nav-button">Browse</button>
+<a href="camera.html" class="nav-button-link">
+  <button class="nav-button" id="main-genre-energy">G&E Mode</button>
+</a>
+</button>
+
+
+  </div>
+
+  <div class="search-container" id="searchContainer">
+    <span class="search-label" id="searchToggle">Search</span>
+    <input type="text" class="search-input" id="searchInput" placeholder="Dive in" />
+  </div>
+
+
+
+  <div class="brand-name">MusicK</div>
+    </div>
+  <div class="bottom-section">
+
+    <div class="music-columns">
+      <!-- Latest Releases -->
+      <div class="music-column">
+        <h2>Latest Releases</h2>
+        <div class="horizontal-grid">
+          <div class="music-card">🎵</div>
+          <div class="music-card">🎵</div>
+          <div class="music-card">🎵</div>
+        </div>
+      </div>
+
+      <!-- Popular Albums -->
+      <!-- Music Grid -->
+<div class="music-column">
+  <h2>Latest Releases</h2>
+  <div class="horizontal-grid">
+    <div class="music-card" data-index="0">
+      <img src="track1.jpg" alt="Track 1">
+    </div>
+    <div class="music-card" data-index="1">
+      <img src="track2.jpg" alt="Track 2">
+    </div>
+    <div class="music-card" data-index="2">
+      <img src="track3.jpg" alt="Track 3">
+    </div>
+  </div>
+</div>
+<!-- hi-->
+<!-- Audio Player (Place this at bottom of the page) -->
+<div id="audio-player" class="hidden">
+  <audio id="audio"></audio>
+  <div class="player-container mini">
+    <div class="controls">
+      <button id="prev-btn"><i class="fas fa-backward"></i></button>
+      <button id="play-btn"><i class="fas fa-play"></i></button>
+      <button id="next-btn"><i class="fas fa-forward"></i></button>
+      <button id="maximize-btn"><i class="fas fa-expand"></i></button>
+    </div>
+    <div class="seek-bar">
+      <span id="current-time">0:00</span>
+      <input type="range" id="seek" value="0">
+      <span id="duration">0:00</span>
+    </div>
+    <div class="volume-controls">
+      <button id="mute-btn"><i class="fas fa-volume-up"></i></button>
+      <input type="range" id="volume" min="0" max="1" step="0.01">
+    </div>
+    <!-- Minimized View -->
+<div class="minimized-view">
+  <div class="mini-controls">
+    <button id="mini-play-pause"><i class="fas fa-play"></i></button>
+    <div class="mini-track-info">
+      <span id="mini-title">Track Title</span>
+    </div>
+    <button id="maximize-btn"><i class="fas fa-chevron-up"></i></button>
+  </div>
+</div>
+
+  </div>
+</div>
+
+      </div>
+    </div>
+    <!-- Quick Picks Section spanning full width -->
+    <div class="quick-picks-section">
+      <h2>Quick Picks</h2>
+      <div class="quick-picks-scroll">
+        <div class="music-card">🎵</div>
+        <div class="music-card">🎵</div>
+        <div class="music-card">🎵</div>
+        <div class="music-card">🎵</div>
+        <div class="music-card">🎵</div>
+        <div class="music-card">🎵</div>
+      <div class="music-card">🎵</div>
+      <div class="music-card">🎵</div>
+      <div class="music-card">🎵</div>
+      </div>
+
+      <!-- Featured Artists Section -->
+<div class="featured-artists-section">
+  <h2>Featured Artists</h2>
+  <div class="artist-grid">
+    <div class="artist-card">
+      <span>🎤</span>
+      <p>Artist 1</p>
+    </div>
+    <div class="artist-card">
+      <span>🎧</span>
+      <p>Artist 2</p>
+    </div>
+    <div class="artist-card">
+      <span>👩‍🎤</span>
+      <p>Artist 3</p>
+    </div>
+    <div class="artist-card">
+      <span>👨‍🎤</span>
+      <p>Artist 4</p>
+    </div>
+    <div class="artist-card">
+      <span>🎷</span>
+      <p>Artist 5</p>
+    </div>
+    <div class="artist-card">
+      <span>🥁</span>
+      <p>Artist 6</p>
+    </div>
+  </div>
+</div> 
+    </div>
+    
+  </div>
+</div>
+</div>
+      </div>
+    </div>
+    
+    
+    <body>
+
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <nav>
+    <ul>
+      <li><button class="nav-button">Home</button></li>
+      <li><button class="nav-button">Library</button></li>
+      <li><button class="nav-button">Browse</button></li>
+      <li>
+  <button class="nav-button" id="addPlaylistBtn">Add Playlist</button>
+</li>
+
+      <li><button class="nav-button" id="sidebar-genre-energy">G&E Mode</button></li>
+        <li>
+    <a href="Cards/Page/index.html">
+      <button class="nav-button">Personal Radio Mix</button>
+    </a>
+  </li>
+
+      
+      <div class="settings-button-container">
+    <button class="settings-button" id="settingsBtn">Settings</button>
+    
+  </div>
+    </ul>
+  </nav>
+    </div>
+    
+<button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Toggle Sidebar">≡</button>
+
+    <!-- Main content area: put your entire main UI inside this div -->
+    <div class="main-content" id="main-content">
+      <!-- Include your existing top-section, bottom-section, music grids, brand-name, search, etc. -->
+    </div>
+
+    <!-- Include your JS at the end of body -->
+    <script src="script.js"></script>
+    <!-- Modern Playlist Modal -->
+<div id="playlistModal" class="playlist-modal hidden">
+  <div class="modal-overlay"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>Paste Your Playlist Link</h2>
+      <span id="closeModalBtn" class="modal-close">&times;</span>
+    </div>
+    <div class="modal-body" id="playlistLinksContainer">
+      <input type="text" class="playlist-link" placeholder="Enter playlist link">
+    </div>
+    <div class="modal-footer">
+      <button id="addAnotherLinkBtn" class="add-btn">+ Add Another</button>
+      <button id="savePlaylistsBtn" class="save-btn">Save Playlists</button>
+    </div>
+  </div>
+</div>
+
+    
+  </body>
+
+
+
+    <div class="container" id="main-container">
+      <!-- your existing top-section and bottom-section here -->
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+
+  </div>
+  <script>
+    const searchToggle = document.getElementById('searchToggle');
+    const searchContainer = document.getElementById('searchContainer');
+
+    searchToggle.addEventListener('click', () => {
+      searchContainer.classList.toggle('active');
+
+      // Autofocus input
+      const input = document.getElementById('searchInput');
+      setTimeout(() => {
+        if (searchContainer.classList.contains('active')) input.focus();
+      }, 300);
+    });
+
+    // Collapse when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!searchContainer.contains(e.target)) {
+        searchContainer.classList.remove('active');
+      }
+    });
+  </script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContainer = document.getElementById('main-container');
+    const toggleBtn = document.getElementById('sidebarToggle');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('active');
+      mainContainer.classList.toggle('shifted');
+
+      // Toggle button arrow direction and class
+      if (sidebar.classList.contains('active')) {
+        toggleBtn.textContent = '‹';  // sidebar open, arrow points left to close
+        toggleBtn.classList.remove('closed');
+      } else {
+        toggleBtn.textContent = '›';  // sidebar closed, arrow points right to open
+        toggleBtn.classList.add('closed');
+      }
+    });
+
+    // Initialize button based on sidebar state on load
+    if (!sidebar.classList.contains('active')) {
+      toggleBtn.textContent = '›';
+      toggleBtn.classList.add('closed');
+    }
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('sidebarToggle');
+
+    let isSidebarOpen = true;
+
+    toggleBtn.addEventListener('click', () => {
+      isSidebarOpen = !isSidebarOpen;
+
+      if (isSidebarOpen) {
+        sidebar.style.width = '250px';
+        toggleBtn.style.left = '250px';
+        toggleBtn.textContent = '←';
+        sidebar.classList.remove('collapsed');
+      } else {
+        sidebar.style.width = '0';
+        toggleBtn.style.left = '10px';
+        toggleBtn.textContent = '≡';
+        sidebar.classList.add('collapsed');
+      }
+    });
+
+    // Initialize icon on load
+    toggleBtn.textContent = '←';
+  });
+</script>
+<script src="https://kit.fontawesome.com/your-kit-id.js" crossorigin="anonymous"></script>
+<script>
+const songs = [
+  {
+    title: "Track 1",
+    artist: "Artist 1",
+    src: "track1.mp3",
+  },
+  {
+    title: "Track 2",
+    artist: "Artist 2",
+    src: "track2.mp3",
+  },
+  {
+    title: "Track 3",
+    artist: "Artist 3",
+    src: "track3.mp3",
+  }
+];
+
+const audio = document.getElementById('audio');
+const playBtn = document.getElementById('play-btn');
+const nextBtn = document.getElementById('next-btn');
+const prevBtn = document.getElementById('prev-btn');
+const seek = document.getElementById('seek');
+const currentTime = document.getElementById('current-time');
+const duration = document.getElementById('duration');
+const muteBtn = document.getElementById('mute-btn');
+const volumeSlider = document.getElementById('volume');
+const maximizeBtn = document.getElementById('maximize-btn');
+const player = document.getElementById('audio-player');
+const container = player.querySelector('.player-container');
+
+let currentTrack = 0;
+let isPlaying = false;
+
+function loadTrack(index) {
+  const song = songs[index];
+  audio.src = song.src;
+  currentTrack = index;
+  audio.load();
+}
+
+function togglePlay() {
+  if (audio.paused) {
+    audio.play();
+    isPlaying = true;
+    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+  } else {
+    audio.pause();
+    isPlaying = false;
+    playBtn.innerHTML = '<i class="fas fa-play"></i>';
+  }
+}
+
+function playTrack(index) {
+  loadTrack(index);
+  player.classList.remove('hidden');
+  audio.play();
+  isPlaying = true;
+  playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+}
+
+playBtn.addEventListener('click', togglePlay);
+nextBtn.addEventListener('click', () => {
+  currentTrack = (currentTrack + 1) % songs.length;
+  playTrack(currentTrack);
+});
+prevBtn.addEventListener('click', () => {
+  currentTrack = (currentTrack - 1 + songs.length) % songs.length;
+  playTrack(currentTrack);
+});
+
+audio.addEventListener('timeupdate', () => {
+  seek.value = (audio.currentTime / audio.duration) * 100 || 0;
+  currentTime.textContent = formatTime(audio.currentTime);
+  duration.textContent = formatTime(audio.duration);
+});
+
+seek.addEventListener('input', () => {
+  audio.currentTime = (seek.value / 100) * audio.duration;
+});
+
+volumeSlider.addEventListener('input', () => {
+  audio.volume = volumeSlider.value;
+});
+
+muteBtn.addEventListener('click', () => {
+  audio.muted = !audio.muted;
+  muteBtn.innerHTML = audio.muted
+    ? '<i class="fas fa-volume-mute"></i>'
+    : '<i class="fas fa-volume-up"></i>';
+});
+
+maximizeBtn.addEventListener('click', () => {
+  container.classList.toggle('maximized');
+  container.classList.toggle('mini');
+});
+
+// Handle card click
+document.querySelectorAll('.music-card').forEach((card) => {
+  card.addEventListener('click', () => {
+    const index = parseInt(card.dataset.index);
+    playTrack(index);
+  });
+});
+
+function formatTime(sec) {
+  if (isNaN(sec)) return '0:00';
+  const m = Math.floor(sec / 60);
+  const s = Math.floor(sec % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+const addPlaylistBtn = document.getElementById('addPlaylistBtn');
+const playlistModal = document.getElementById('playlistModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const addAnotherLinkBtn = document.getElementById('addAnotherLinkBtn');
+const playlistLinksContainer = document.getElementById('playlistLinksContainer');
+const savePlaylistsBtn = document.getElementById('savePlaylistsBtn');
+
+// Open modal
+addPlaylistBtn.addEventListener('click', () => {
+  playlistModal.classList.add('active');
+});
+
+// Close modal
+closeModalBtn.addEventListener('click', () => {
+  playlistModal.classList.remove('active');
+});
+
+// Clicking outside modal closes
+document.querySelector('.modal-overlay').addEventListener('click', () => {
+  playlistModal.classList.remove('active');
+});
+
+// Add another link input
+addAnotherLinkBtn.addEventListener('click', () => {
+  const newInput = document.createElement('input');
+  newInput.type = 'text';
+  newInput.classList.add('playlist-link');
+  newInput.placeholder = 'Enter playlist link';
+  playlistLinksContainer.appendChild(newInput);
+});
+
+// Save playlists (front-end only for now)
+savePlaylistsBtn.addEventListener('click', () => {
+  const links = Array.from(document.querySelectorAll('.playlist-link')).map(input => input.value.trim()).filter(Boolean);
+  console.log("User Playlist Links:", links);
+  playlistModal.classList.remove('active');
+});
+
+</script>
+
+  </body>
+  </html>

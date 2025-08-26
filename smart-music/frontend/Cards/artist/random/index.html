@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chill FM — Radio Station</title>
+  <meta name="color-scheme" content="dark light" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Manrope:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-1:#0a0c10;
+      --bg-2:#0d1117;
+      --card:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.08);
+      --soft:rgba(255,255,255,.04);
+      --text:#e6e8eb;
+      --muted:#9aa4ad;
+      --accent:#25d0a6;  /* calm teal */
+      --accent-2:#7aa7ff;/* soft blue */
+      --danger:#ff6b6b;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(80% 120% at 20% 10%, #0c1420 0%, transparent 60%),
+                  radial-gradient(80% 120% at 80% 90%, #101b16 0%, transparent 60%),
+                  var(--bg-1);
+      color:var(--text);
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,sans-serif;
+      letter-spacing:.1px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+    }
+
+    /* floating ambience blobs */
+    .blob{
+      position:fixed; inset:auto;
+      filter: blur(50px); opacity:.35; pointer-events:none;
+      animation: float 22s ease-in-out infinite;
+      mix-blend-mode:screen;
+    }
+    .blob.b1{ width:42vw; height:42vw; background:radial-gradient(circle at 30% 30%, var(--accent), transparent 60%); top:-10%; left:-10%; animation-duration:26s;}
+    .blob.b2{ width:36vw; height:36vw; background:radial-gradient(circle at 70% 70%, var(--accent-2), transparent 60%); bottom:-12%; right:-6%;}
+    @keyframes float{
+      0%{transform:translate3d(0,0,0) scale(1)}
+      50%{transform:translate3d(2rem,-1rem,0) scale(1.06)}
+      100%{transform:translate3d(0,0,0) scale(1)}
+    }
+
+    /* 16:9 stage */
+    .stage{
+      width:min(92vw,1400px);
+      aspect-ratio:16/9;
+      position:relative;
+      border-radius:24px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--stroke);
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.06);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1.1fr 1.6fr .9fr;
+      grid-template-rows: auto 1fr auto;
+      gap:0;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* header */
+    .header{
+      grid-column: 1 / 4;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:18px 28px;
+      border-bottom:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), transparent);
+    }
+    .brand{
+      display:flex; align-items:center; gap:14px; font-weight:800; letter-spacing:.2px;
+    }
+    .logo{
+      width:38px; height:38px; border-radius:12px;
+      background:
+        conic-gradient(from 220deg, var(--accent), var(--accent-2), var(--accent), var(--accent-2));
+      box-shadow:0 6px 18px rgba(37,208,166,.35);
+    }
+    .live-pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px; border-radius:999px;
+      background:var(--soft); border:1px solid var(--stroke);
+      font-size:13px; color:var(--muted);
+    }
+    .dot{width:8px;height:8px;border-radius:50%; background:var(--danger); box-shadow:0 0 10px var(--danger)}
+
+    /* left: artwork + meta */
+    .left{
+      grid-row:2 / 3; grid-column:1 / 2;
+      padding:28px; display:flex; flex-direction:column; gap:22px;
+      border-right:1px solid var(--stroke);
+    }
+    .art{
+      aspect-ratio:1 / 1;
+      width:100%;
+      border-radius:18px; overflow:hidden;
+      background:#111; position:relative;
+      box-shadow:0 16px 40px rgba(0,0,0,.45);
+    }
+    .art img{ width:100%; height:100%; object-fit:cover; transform:scale(1.02); transition:transform .6s ease }
+    .art::after{
+      content:""; position:absolute; inset:0;
+      background:linear-gradient(180deg, transparent 60%, rgba(0,0,0,.35));
+    }
+    .meta h1{
+      margin:0; font-size:clamp(20px,2.2vw,30px); font-weight:700;
+    }
+    .meta p{ margin:.2rem 0 0; color:var(--muted); font-size:clamp(13px,1.4vw,15px) }
+
+    /* center: controls + timeline + mini visualizer */
+    .center{
+      grid-row:2 / 3; grid-column:2 / 3;
+      padding:28px; display:flex; flex-direction:column; justify-content:center; gap:26px;
+    }
+    .big-title{
+      font-family:'Manrope',Inter,sans-serif;
+      font-size:clamp(18px,1.8vw,22px);
+      color:#cfd6dc; letter-spacing:.2px;
+    }
+
+    .controls{
+      display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-grid; place-items:center;
+      width:46px; height:46px; border-radius:12px;
+      background:var(--card); border:1px solid var(--stroke);
+      color:var(--text); cursor:pointer;
+      transition:transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+      box-shadow:0 4px 14px rgba(0,0,0,.25);
+    }
+    .btn:hover{ transform:translateY(-2px); border-color:rgba(255,255,255,.18) }
+    .btn.play{
+      width:56px;height:56px;border-radius:16px;
+      background:linear-gradient(180deg, var(--accent), #21bb95);
+      border:none; color:#041d17; font-weight:800;
+      box-shadow:0 10px 24px rgba(37,208,166,.35);
+    }
+
+    .timeline{
+      display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+    }
+    .time{ font-variant-numeric: tabular-nums; color:var(--muted); font-size:13px }
+    .track{
+      position:relative; height:8px; border-radius:999px; background:var(--soft); overflow:hidden;
+      border:1px solid var(--stroke);
+    }
+    .bar{ position:absolute; top:0; left:0; height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-2)) }
+    .knob{
+      position:absolute; top:50%; transform:translate(-50%,-50%);
+      width:14px; height:14px; border-radius:50%; background:#fff;
+      box-shadow:0 0 0 4px rgba(37,208,166,.25);
+      mix-blend-mode:screen;
+    }
+
+    .mini-viz{
+      height:64px; display:flex; align-items:flex-end; gap:6px; opacity:.9;
+    }
+    .bar-v{
+      width:8px; height:20%; border-radius:6px;
+      background:linear-gradient(180deg, var(--accent-2), var(--accent));
+      animation: bounce 1.1s ease-in-out infinite alternate;
+      transform-origin:bottom;
+    }
+    .bar-v:nth-child(2){animation-delay:.12s}
+    .bar-v:nth-child(3){animation-delay:.24s}
+    .bar-v:nth-child(4){animation-delay:.36s}
+    .bar-v:nth-child(5){animation-delay:.48s}
+    @keyframes bounce{
+      from{ height:22% } to{ height:96% }
+    }
+    .mini-viz.paused .bar-v{ animation-play-state:paused; height:22% }
+
+    /* right: schedule / queue / volume */
+    .right{
+      grid-row:2 / 3; grid-column:3 / 4;
+      padding:28px; border-left:1px solid var(--stroke);
+      display:flex; flex-direction:column; gap:18px;
+      background:linear-gradient(180deg, transparent, rgba(255,255,255,.02));
+    }
+    .panel{
+      background:var(--card); border:1px solid var(--stroke); border-radius:16px; padding:14px 16px;
+    }
+    .panel h3{ margin:0 0 10px; font-size:14px; color:#cfd6dc; letter-spacing:.2px }
+    .queue{ max-height:30vh; overflow:auto; display:grid; gap:10px; scrollbar-width:thin }
+    .q-item{
+      display:grid; grid-template-columns:36px 1fr auto; gap:10px; align-items:center;
+      padding:8px; border-radius:12px; transition:background .15s ease, transform .15s ease
+    }
+    .q-item:hover{ background:rgba(255,255,255,.04); transform:translateY(-1px) }
+    .thumb{ width:36px; height:36px; border-radius:8px; overflow:hidden }
+    .thumb img{ width:100%; height:100%; object-fit:cover }
+    .q-title{ font-size:13px }
+    .q-artist{ font-size:12px; color:var(--muted) }
+    .badge{ font-size:11px; color:#cfeae5; background:rgba(37,208,166,.2); padding:4px 8px; border-radius:999px; border:1px solid rgba(37,208,166,.35) }
+
+    .vol{
+      display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center;
+    }
+    .slider{
+      height:8px; border-radius:999px; background:var(--soft); position:relative; border:1px solid var(--stroke);
+    }
+    .fill{ position:absolute; inset:0 auto 0 0; width:50%; background:linear-gradient(90deg, var(--accent-2), var(--accent)) }
+    .hotkey{ color:var(--muted); font-size:12px }
+
+    /* footer */
+    .footer{
+      grid-column:1 / 4;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 20px; border-top:1px solid var(--stroke);
+      font-size:12px; color:var(--muted);
+      background:linear-gradient(0deg, rgba(255,255,255,.02), transparent);
+    }
+    .marquee{
+      overflow:hidden; white-space:nowrap; mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .marquee span{ display:inline-block; padding-left:100%; animation: scroll 26s linear infinite }
+    @keyframes scroll{
+      to{ transform: translateX(-100%) }
+    }
+
+    /* responsiveness: on small screens drop strict 16:9 */
+    @media (max-width: 1024px){
+      .stage{ width:96vw; aspect-ratio:auto; grid-template-columns:1fr; grid-template-rows:auto auto auto auto; }
+      .left,.center,.right{ border:none; border-bottom:1px solid var(--stroke) }
+      .right{ order:3 }
+      .footer{ order:4 }
+    }
+  </style>
+</head>
+<body>
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+
+  <main class="stage" role="region" aria-label="Chill FM Radio Player">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand" aria-label="Station">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div style="font-size:16px; line-height:1; opacity:.9">Chill&nbsp;FM</div>
+          <div style="font-size:12px; color:var(--muted)">Lo-fi • Ambient • Beats</div>
+        </div>
+      </div>
+      <div class="live-pill"><span class="dot" aria-hidden="true"></span> Live • 3,142 listeners</div>
+    </header>
+
+    <!-- Left: Artwork + Meta -->
+    <section class="left">
+      <div class="art" aria-hidden="true">
+        <img id="cover" src="https://picsum.photos/800?random=108" alt="Album cover">
+      </div>
+      <div class="meta">
+        <h1 id="title">—</h1>
+        <p id="artist">—</p>
+      </div>
+    </section>
+
+    <!-- Center: Controls -->
+    <section class="center">
+      <div class="big-title">Now Playing</div>
+
+      <div class="controls" role="group" aria-label="Playback controls">
+        <button class="btn" id="prev" title="Previous (Shift+P)" aria-label="Previous">
+          <!-- left arrow -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 12L20 5v14l-10-7Z" fill="currentColor"/><path d="M4 5h2v14H4z" fill="currentColor"/></svg>
+        </button>
+        <button class="btn play" id="play" title="Play/Pause (Space)" aria-label="Play">
+          <!-- play/pause swaps via JS -->
+          <svg id="playIcon" width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7-11-7Z" fill="currentColor"/></svg>
+        </button>
+        <button class="btn" id="next" title="Next / Shuffle (N)" aria-label="Next">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M14 12L4 5v14l10-7Z" fill="currentColor"/><path d="M18 5h2v14h-2z" fill="currentColor"/></svg>
+        </button>
+
+        <div class="hotkey" style="margin-left:8px">Space: Play/Pause • N: Next • M: Mute • ↑/↓: Volume</div>
+      </div>
+
+      <div class="timeline" aria-label="Scrub timeline">
+        <div class="time" id="curTime">0:00</div>
+        <div class="track" id="progress" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+          <div class="bar" id="bar"></div>
+          <div class="knob" id="knob" style="left:0%"></div>
+        </div>
+        <div class="time" id="dur">0:00</div>
+      </div>
+
+      <div class="mini-viz paused" id="viz" aria-hidden="true">
+        <div class="bar-v"></div><div class="bar-v"></div><div class="bar-v"></div><div class="bar-v"></div><div class="bar-v"></div>
+      </div>
+    </section>
+
+    <!-- Right: Upcoming + Volume -->
+    <aside class="right" aria-label="Queue and volume">
+      <div class="panel">
+        <h3>Up Next</h3>
+        <div class="queue" id="queue"></div>
+      </div>
+
+      <div class="panel">
+        <h3>Volume</h3>
+        <div class="vol">
+          <button class="btn" id="mute" aria-label="Mute (M)" title="Mute (M)">
+            <svg id="volIcon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/></svg>
+          </button>
+          <div class="slider" id="volTrack" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="70" tabindex="0">
+            <div class="fill" id="volFill" style="width:70%"></div>
+          </div>
+          <div class="time" id="volLabel">70%</div>
+        </div>
+      </div>
+
+      <div class="hotkey">Tip: Click timeline to seek. Drag volume to adjust precisely.</div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div>© 2025 Chill FM • Curated by Humans • Zero ads</div>
+      <div class="marquee" aria-hidden="true"><span id="ticker">Welcome to Chill FM — Lo-fi, ambient and focus beats 24/7 • Stay hydrated • Press N to shuffle the vibe • </span></div>
+    </footer>
+
+    <!-- Hidden audio -->
+    <audio id="audio" preload="metadata" crossorigin="anonymous"></audio>
+  </main>
+
+  <script>
+    // --- Station playlist (royalty-free demo streams) ---
+    const PLAYLIST = [
+      {
+        title: "Sunset Alley",
+        artist: "Leo K.",
+        cover: "https://picsum.photos/800?random=201",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      },
+      {
+        title: "Cloud Garden",
+        artist: "Mina & The Waves",
+        cover: "https://picsum.photos/800?random=202",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+      },
+      {
+        title: "Moonlit Pages",
+        artist: "Aria Fields",
+        cover: "https://picsum.photos/800?random=203",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+      },
+      {
+        title: "Pacific Drift",
+        artist: "Northern Lines",
+        cover: "https://picsum.photos/800?random=204",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+      },
+      {
+        title: "Quiet Coffee",
+        artist: "Soft Circuit",
+        cover: "https://picsum.photos/800?random=205",
+        src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
+      }
+    ];
+
+    // --- DOM refs ---
+    const audio = document.getElementById('audio');
+    const cover = document.getElementById('cover');
+    const titleEl = document.getElementById('title');
+    const artistEl = document.getElementById('artist');
+    const playBtn = document.getElementById('play');
+    const playIcon = document.getElementById('playIcon');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const bar = document.getElementById('bar');
+    const knob = document.getElementById('knob');
+    const progress = document.getElementById('progress');
+    const curTime = document.getElementById('curTime');
+    const dur = document.getElementById('dur');
+    const viz = document.getElementById('viz');
+    const queue = document.getElementById('queue');
+    const muteBtn = document.getElementById('mute');
+    const volIcon = document.getElementById('volIcon');
+    const volTrack = document.getElementById('volTrack');
+    const volFill = document.getElementById('volFill');
+    const volLabel = document.getElementById('volLabel');
+
+    let index = 0;
+    let isDraggingProgress = false;
+    let isDraggingVol = false;
+
+    function fmt(t){
+      if (!isFinite(t)) return '0:00';
+      const m = Math.floor(t/60), s = Math.floor(t%60);
+      return `${m}:${s.toString().padStart(2,'0')}`;
+    }
+
+    function setPlayIcon(isPlaying){
+      if (isPlaying){
+        playIcon.setAttribute('viewBox','0 0 24 24');
+        playIcon.innerHTML = '<path d="M7 5h4v14H7zM13 5h4v14h-4z" fill="currentColor"/>';
+        viz.classList.remove('paused');
+      } else {
+        playIcon.setAttribute('viewBox','0 0 24 24');
+        playIcon.innerHTML = '<path d="M8 5v14l11-7-11-7Z" fill="currentColor"/>';
+        viz.classList.add('paused');
+      }
+    }
+
+    function renderQueue(){
+      queue.innerHTML = '';
+      PLAYLIST.forEach((t,i)=>{
+        const row = document.createElement('div');
+        row.className = 'q-item';
+        row.innerHTML = `
+          <div class="thumb"><img src="${t.cover}" alt=""></div>
+          <div>
+            <div class="q-title">${t.title}</div>
+            <div class="q-artist">${t.artist}</div>
+          </div>
+          ${i===index ? '<span class="badge">Now</span>' : ''}
+        `;
+        row.onclick = ()=> loadTrack(i,true);
+        queue.appendChild(row);
+      });
+    }
+
+    function loadTrack(i, autoplay=false){
+      index = (i + PLAYLIST.length) % PLAYLIST.length;
+      const t = PLAYLIST[index];
+      titleEl.textContent = t.title;
+      artistEl.textContent = t.artist;
+      cover.src = t.cover;
+      audio.src = t.src;
+      renderQueue();
+      if (autoplay){ audio.play(); }
+    }
+
+    function playPause(){
+      if (audio.paused){ audio.play(); } else { audio.pause(); }
+    }
+
+    function next(shuffle=true){
+      let i = index + 1;
+      if (shuffle){
+        i = Math.floor(Math.random() * PLAYLIST.length);
+        if (i === index) i = (i+1)%PLAYLIST.length;
+      }
+      loadTrack(i,true);
+    }
+
+    function prev(){
+      loadTrack(index-1,true);
+    }
+
+    // Progress interactions
+    function seekByClientX(clientX){
+      const r = progress.getBoundingClientRect();
+      const pct = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+      audio.currentTime = pct * (audio.duration || 0);
+    }
+
+    progress.addEventListener('pointerdown', (e)=>{ isDraggingProgress=true; seekByClientX(e.clientX); });
+    window.addEventListener('pointermove', (e)=>{ if(isDraggingProgress) seekByClientX(e.clientX); });
+    window.addEventListener('pointerup', ()=> isDraggingProgress=false);
+    progress.addEventListener('keydown', (e)=>{
+      if (e.key==='ArrowLeft'){ audio.currentTime = Math.max(0, audio.currentTime-5); }
+      if (e.key==='ArrowRight'){ audio.currentTime = Math.min(audio.duration||0, audio.currentTime+5); }
+    });
+
+    // Volume interactions
+    function setVolByClientX(clientX){
+      const r = volTrack.getBoundingClientRect();
+      const pct = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+      audio.volume = pct;
+      volFill.style.width = (pct*100).toFixed(0)+'%';
+      volLabel.textContent = (pct*100).toFixed(0)+'%';
+      volTrack.setAttribute('aria-valuenow', Math.round(pct*100));
+    }
+    volTrack.addEventListener('pointerdown',(e)=>{ isDraggingVol=true; setVolByClientX(e.clientX); });
+    window.addEventListener('pointermove',(e)=>{ if(isDraggingVol) setVolByClientX(e.clientX); });
+    window.addEventListener('pointerup',()=> isDraggingVol=false);
+
+    function toggleMute(){
+      audio.muted = !audio.muted;
+      volIcon.innerHTML = audio.muted
+        ? '<path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/><path d="M14.5 9.5 20 15m0-5.5-5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
+        : '<path d="M11 5 6 9H3v6h3l5 4V5z" fill="currentColor"/>';
+    }
+
+    // Keyboard shortcuts
+    window.addEventListener('keydown',(e)=>{
+      if (e.target && /input|textarea/i.test(e.target.tagName)) return;
+      if (e.code==='Space'){ e.preventDefault(); playPause(); }
+      if (e.key==='N' || e.key==='n'){ next(true); }
+      if (e.key==='M' || e.key==='m'){ toggleMute(); }
+      if (e.key==='ArrowUp'){ audio.volume = Math.min(1, audio.volume + 0.05); volFill.style.width=(audio.volume*100)+'%'; volLabel.textContent=(audio.volume*100).toFixed(0)+'%';}
+      if (e.key==='ArrowDown'){ audio.volume = Math.max(0, audio.volume - 0.05); volFill.style.width=(audio.volume*100)+'%'; volLabel.textContent=(audio.volume*100).toFixed(0)+'%';}
+      if (e.shiftKey && (e.key==='P' || e.key==='p')) prev();
+    });
+
+    // Audio events
+    audio.addEventListener('play', ()=> setPlayIcon(true));
+    audio.addEventListener('pause', ()=> setPlayIcon(false));
+    audio.addEventListener('ended', ()=> next(true));
+    audio.addEventListener('timeupdate', ()=>{
+      const d = audio.duration || 0, c = audio.currentTime || 0;
+      const pct = d ? (c/d)*100 : 0;
+      bar.style.width = pct + '%';
+      knob.style.left = pct + '%';
+      curTime.textContent = fmt(c);
+      dur.textContent = fmt(d);
+      progress.setAttribute('aria-valuenow', Math.round(pct));
+    });
+
+    // Wire buttons
+    playBtn.addEventListener('click', playPause);
+    nextBtn.addEventListener('click', ()=> next(true));
+    prevBtn.addEventListener('click', prev);
+    muteBtn.addEventListener('click', toggleMute);
+
+    // Init
+    audio.volume = 0.7;
+    volFill.style.width = '70%';
+    volLabel.textContent = '70%';
+    loadTrack(0,false);
+    renderQueue();
+
+    // Optional: auto-start visual marquee content
+    const ticker = document.getElementById('ticker');
+    ticker.textContent += 'New releases every Friday • Smooth focus, zero ads • Follow @ChillFM • ';
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Categories</title>
+    
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
+
+    <div class="w-full max-w-4xl flex-grow">
+        <!-- Grid container for the category cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+
+            <!-- Category Card 1: Bollywood Party -->
+            <a href="../artist/index.html" class="category-card relative aspect-video rounded-2xl overflow-hidden group transform hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer block">
+                <img src="bollywood.jpg" alt="A lively concert with purple and blue lights." class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/ffffff?text=Bollywood+Party';">
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div class="relative h-full flex items-center justify-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-shadow">Bollywood Party</h2>
+                </div>
+            </a>
+
+            <!-- Category Card 2: LOFI -->
+            <a href="../artist/index.html" class="category-card relative aspect-video rounded-2xl overflow-hidden group transform hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer block">
+                <img src="lofi.png" alt="A person looking out a window on a rainy day." class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/ffffff?text=LOFI';">
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div class="relative h-full flex items-center justify-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-shadow">LOFI</h2>
+                </div>
+            </a>
+
+            <!-- Category Card 3: Classical Hits -->
+            <a href="../artist/index.html" class="category-card relative aspect-video rounded-2xl overflow-hidden group transform hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer block">
+                <img src="classical.png" alt="A vintage record player with a vinyl record on it." class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/ffffff?text=Classical+Hits';">
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div class="relative h-full flex items-center justify-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-shadow">Classical Hits</h2>
+                </div>
+            </a>
+
+            <!-- Category Card 4: Remix -->
+            <a href="../artist/index.html" class="category-card relative aspect-video rounded-2xl overflow-hidden group transform hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer block">
+                <img src="remix.jpg" alt="A DJ performing in front of a large, excited crowd." class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/ffffff?text=Remix';">
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div class="relative h-full flex items-center justify-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-shadow">Remix</h2>
+                </div>
+            </a>
+
+            <!-- Category Card 5: Pop -->
+            <a href="../artist/index.html" class="category-card relative aspect-video rounded-2xl overflow-hidden group transform hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer block">
+                <img src="pop.jpg" alt="Colorful abstract lights representing pop music." class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/ffffff?text=Pop';">
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div class="relative h-full flex items-center justify-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-shadow">Pop</h2>
+                </div>
+            </a>
+
+            <!-- Category Card 6: Electronic -->
+            <a href="../artist/index.html" class="category-card relative aspect-video rounded-2xl overflow-hidden group transform hover:scale-105 transition-transform duration-300 ease-in-out cursor-pointer block">
+                <img src="electronic.jpg" alt="Abstract neon light trails in the dark." class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/600x400/1a202c/ffffff?text=Electronic';">
+                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+                <div class="relative h-full flex items-center justify-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-shadow">Electronic</h2>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <!-- No Next Button anymore -->
+
+    <script src="script.js"></script>
+</body>
+</html>
