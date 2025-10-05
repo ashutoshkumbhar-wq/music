@@ -1,9 +1,0 @@
-/* Custom styles for text shadow to make text more readable on images */
-.text-shadow {
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-/* Set the default font for the entire page */
-body {
-    font-family: 'Inter', sans-serif;
-}
