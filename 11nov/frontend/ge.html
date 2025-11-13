@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Music - Gesture Test (Simple)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+:root {
+  --bg-primary: #010108;
+  --bg-secondary: #0a0a0f;
+  --bg-card: rgba(255, 255, 255, 0.02);
+  --bg-card-hover: rgba(255, 255, 255, 0.04);
+  
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.65);
+  --text-muted: rgba(255, 255, 255, 0.4);
+
+  --accent: #ffffff;
+  --accent-hover: rgba(255, 255, 255, 0.9);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.12);
+
+  --surface-1: rgba(255, 255, 255, 0.02);
+  --surface-2: rgba(255, 255, 255, 0.04);
+  --surface-3: rgba(255, 255, 255, 0.06);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+zoom: 0.9; /* 0.9 = 90% size, adjust to 0.85 or 0.8 for more shrink */
+  margin: 0;
+  padding: 0;
+  height: auto;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  scroll-behavior: smooth;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Page Background with Subtle Gradient */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.015), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.015), transparent 50%),
+    var(--bg-primary);
+}
+
+/* Back Button Container - Scrollable */
+.back-button-container {
+  position: relative;
+  z-index: 1;
+  padding: 12px 30px 8px 30px;
+}
+
+/* Back Button */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  backdrop-filter: blur(10px);
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--border-medium);
+  transform: translateX(-4px);
+}
+
+/* Header */
+.gesture-test-header {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  color: var(--text-primary);
+  padding: 0 30px 24px 30px;
+  text-align: center;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.gesture-test-header h1 {
+  margin: 0;
+  font-size: 2.2em;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+}
+
+.gesture-test-header p {
+  margin: 12px 0 0 0;
+  font-size: 0.95em;
+  font-weight: 400;
+  color: var(--text-secondary);
+  letter-spacing: 0.2px;
+}
+
+/* Main Content */
+.wrap {
+  position: relative;
+  z-index: 1;
+  min-height: auto;
+  padding: 0 30px 30px 30px;
+  box-sizing: border-box;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Card Component */
+.card {
+  background: var(--surface-1);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  border: 1px solid var(--border-subtle);
+  min-height: 420px;
+  transition: border-color var(--transition-base);
+}
+
+.card:hover {
+  border-color: var(--border-medium);
+}
+
+/* Camera Section */
+.stage {
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.stage-header h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 1.2em;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.live-camera-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.camera-btn {
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  padding: 8px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.camera-btn:hover {
+  background: var(--surface-3);
+  border-color: var(--border-medium);
+  transform: translateY(-2px);
+}
+
+.camera-btn.active {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+.camera-btn.off {
+  background: var(--surface-1);
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
+}
+
+.video-wrap {
+  position: relative;
+  flex: 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-primary);
+  min-height: 300px;
+  border: 1px solid var(--border-subtle);
+}
+
+#video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: calc(var(--radius-md) - 1px);
+}
+
+#overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 1.1em;
+  border-radius: calc(var(--radius-md) - 1px);
+  text-align: center;
+  padding: 20px;
+}
+
+/* Panel Section */
+.panel {
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.gesture-recognition-panel {
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-subtle);
+}
+
+.gesture-recognition-panel h3 {
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+  font-size: 1.05em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gesture-display {
+  font-size: 1em;
+  font-weight: 500;
+  margin-bottom: 12px;
+  padding: 14px;
+  background: var(--surface-1);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-base);
+}
+
+.confidence-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+.confidence-container {
+  flex: 1;
+  height: 8px;
+  background: var(--surface-1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.confidence-fill {
+  height: 100%;
+  background: var(--text-primary);
+  transition: width var(--transition-smooth);
+  border-radius: var(--radius-full);
+}
+
+/* Gesture Instructions */
+.gesture-instructions {
+  background: var(--surface-2);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  margin: 16px 0;
+  border: 1px solid var(--border-subtle);
+}
+
+.gesture-instructions h3 {
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  font-size: 1.05em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gesture-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.gesture-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--surface-1);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  transition: all var(--transition-base);
+  cursor: default;
+}
+
+.gesture-item:hover {
+  background: var(--surface-3);
+  border-color: var(--border-medium);
+  transform: translateY(-2px);
+}
+
+.gesture-icon {
+  font-size: 1.1em;
+  min-width: 32px;
+  text-align: center;
+}
+
+.gesture-item span:last-child {
+  color: var(--text-primary);
+  font-weight: 400;
+  font-size: 0.8em;
+}
+
+/* Controls Section */
+.section {
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-top: 16px;
+  border: 1px solid var(--border-subtle);
+}
+
+.section h3 {
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+  font-size: 1.05em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12px 0;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+/* Toggle Switch */
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.track {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--surface-1);
+  transition: all var(--transition-smooth);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.track:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 2px;
+  bottom: 2px;
+  background: var(--text-muted);
+  transition: all var(--transition-smooth);
+  border-radius: 50%;
+}
+
+input:checked + .track {
+  background: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+input:checked + .track:before {
+  transform: translateX(24px);
+  background: var(--bg-primary);
+}
+
+.track:hover {
+  border-color: var(--border-medium);
+}
+
+input:checked + .track:hover {
+  background: var(--accent-hover);
+}
+
+/* Feature Toggle Switch for Settings */
+.feature-toggle {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 32px;
+    cursor: pointer;
+}
+
+.feature-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--surface-2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    left: 3px;
+    bottom: 3px;
+    background: var(--text-secondary);
+    border-radius: 50%;
+    transition: all var(--transition-base);
+}
+
+.feature-toggle input:checked + .toggle-slider {
+    background: var(--text-primary);
+    border-color: var(--text-primary);
+}
+
+.feature-toggle input:checked + .toggle-slider::before {
+    transform: translateX(28px);
+    background: var(--bg-primary);
+}
+
+.feature-toggle:hover .toggle-slider {
+    background: var(--surface-3);
+}
+
+.feature-toggle input:checked:hover + .toggle-slider {
+    background: var(--accent-hover);
+}
+
+/* Windows Container - For spacing at bottom */
+.windows-container {
+  position: relative;
+  z-index: 1;
+  padding: 30px 30px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+/* Mini Windows - Now displayed as full-size page sections */
+.mini-window {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 90vh;                /* fills 90% of the viewport vertically */
+  max-height: 95vh;            /* smooth expansion when active */
+  background: var(--surface-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: none;
+  z-index: auto;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--transition-smooth);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.mini-window.active {
+  opacity: 1;
+  pointer-events: all;
+  max-height: 95vh;
+}
+
+.mini-window-content {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.mini-window-content iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: var(--bg-primary);
+  border-radius: 0;
+}
+
+
+.mini-window.active {
+    opacity: 1;
+    max-height: 700px;
+    pointer-events: all;
+}
+
+.mini-window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+}
+
+.mini-window-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+}
+
+.mini-window-close {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.4em;
+    cursor: pointer;
+    padding: 4px 12px;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    line-height: 1;
+}
+
+.mini-window-close:hover {
+    background: var(--surface-2);
+    color: var(--text-primary);
+}
+
+.mini-window-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+}
+
+.mini-window-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: var(--bg-primary);
+    border-radius: 0;
+}
+
+/* Remove overlay since we're no longer using modal overlay */
+.mini-window-overlay {
+    display: none;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-subtle);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-medium);
+}
+
+/* Selection Styling */
+::selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+::-moz-selection {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .back-button-container {
+    padding: 16px 24px 12px 24px;
+  }
+
+  .back-btn {
+    padding: 8px 16px;
+    font-size: 0.9em;
+  }
+
+  .gesture-test-header {
+    padding: 0 24px 24px 24px;
+  }
+  
+  .gesture-test-header h1 {
+    font-size: 2em;
+  }
+
+  .wrap {
+    padding: 0 24px 24px 24px;
+  }
+
+  .card {
+    padding: 24px;
+    min-height: 420px;
+  }
+
+  .camera-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .toggle {
+    width: 48px;
+    height: 26px;
+  }
+
+  .track:before {
+    height: 20px;
+    width: 20px;
+  }
+
+  input:checked + .track:before {
+    transform: translateX(22px);
+  }
+
+  .gesture-list {
+    grid-template-columns: 1fr;
+  }
+
+  .windows-container {
+    padding: 40px 24px;
+  }
+
+.mini-window {
+    height: 90vh;           /* 90% of viewport height */
+}
+.mini-window.active {
+    max-height: 95vh;       /* smooth expansion */
+}
+
+}
+
+@media (max-width: 480px) {
+  .back-button-container {
+    padding: 12px 20px 10px 20px;
+  }
+
+  .gesture-test-header h1 {
+    font-size: 1.75em;
+  }
+
+  .windows-container {
+    padding: 30px 20px;
+  }
+
+  .mini-window {
+    height: 500px;
+  }
+
+  .mini-window.active {
+    max-height: 600px;
+  }
+}
+
+/* Gesture Feedback Animation */
+@keyframes gestureFeedback {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  85% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+}
+
+.gesture-feedback {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--bg-primary);
+  background: var(--text-primary);
+  padding: 24px 40px;
+  border-radius: var(--radius-xl);
+  font-weight: 700;
+  font-size: 1.4em;
+  z-index: 10000;
+  pointer-events: none;
+  animation: gestureFeedback 2s ease-out forwards;
+  box-shadow: 0 20px 60px rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.5px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+}
+
+.card:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+    </style>
+</head>
+<body>
+<div class="page-bg"></div>
+
+<!-- Back Button - Now Scrollable -->
+<div class="back-button-container">
+    <button onclick="window.location.href='index.html'" class="back-btn">← Back</button>
+</div>
+
+<!-- Header -->
+<div class="gesture-test-header">
+    <h1>Smart Music Gesture Test</h1>
+    <p>Test your trained gesture recognition model with Spotify integration</p>
+</div>
+
+<!-- Main Content -->
+<main class="wrap">
+    <section class="grid">
+        <!-- Left: Camera -->
+        <div class="card stage">
+            <div class="stage-header">
+                <h2>Live Camera Feed</h2>
+                <div class="live-camera-controls">
+                    <button id="toggleCamBtn" class="camera-btn" title="Toggle Camera">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="video-wrap" id="videoWrap">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="overlay"></canvas>
+                <div class="placeholder" id="placeholder">
+                    📷 Camera is off<br>Click camera button to start
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Controls -->
+        <div class="card panel">
+            <!-- Gesture Recognition Display -->
+            <div class="gesture-recognition-panel">
+                <h3>🎭 Current Gesture</h3>
+                <div id="currentGesture" class="gesture-display">No gesture detected</div>
+                <div class="confidence-bar">
+                    <span>Confidence:</span>
+                    <div class="confidence-container">
+                        <div class="confidence-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Emotion Recognition Display -->
+            <div class="gesture-recognition-panel">
+                <h3>😊 Current Emotion</h3>
+                <div id="currentEmotion" class="gesture-display">No face detected</div>
+                <div style="margin-top: 12px;">
+                    <div style="display: flex; align-items: center; margin-bottom: 6px; font-size: 0.85em;">
+                        <span style="width: 60px; color: #888;">Neutral:</span>
+                        <div style="flex: 1; height: 6px; background: #0a0e1a; border-radius: 3px; overflow: hidden; border: 1px solid #1a2340;">
+                            <div id="neutralBar" style="height: 100%; background: #888; width: 0%"></div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-bottom: 6px; font-size: 0.85em;">
+                        <span style="width: 60px; color: #888;">Happy:</span>
+                        <div style="flex: 1; height: 6px; background: #0a0e1a; border-radius: 3px; overflow: hidden; border: 1px solid #1a2340;">
+                            <div id="happyBar" style="height: 100%; background: #4CAF50; width: 0%"></div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; font-size: 0.85em;">
+                        <span style="width: 60px; color: #888;">Sad:</span>
+                        <div style="flex: 1; height: 6px; background: #0a0e1a; border-radius: 3px; overflow: hidden; border: 1px solid #1a2340;">
+                            <div id="sadBar" style="height: 100%; background: #2196F3; width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gesture Instructions -->
+            <div class="gesture-instructions">
+                <h3>🎵 Your 8 Trained Gestures</h3>
+                <div class="gesture-list">
+                    <div class="gesture-item"><span class="gesture-icon">✋</span><span>play_right → Play</span></div>
+                    <div class="gesture-item"><span class="gesture-icon">✊</span><span>pause_right → Pause</span></div>
+                    <div class="gesture-item"><span class="gesture-icon">👉</span><span>next_right → Next Track</span></div>
+                    <div class="gesture-item"><span class="gesture-icon">👈</span><span>previous_right → Previous</span></div>
+                    <div class="gesture-item"><span class="gesture-icon">👍</span><span>volume_up_left → Volume Up</span></div>
+                    <div class="gesture-item"><span class="gesture-icon">👎</span><span>volume_down_left → Volume Down</span></div>
+                    <div class="gesture-item"><span class="gesture-icon">❤️</span><span>like_left → Like Track</span></div>
+                    <div class="gesture-item"><span class="gesture-icon">⏩</span><span>skip30_left → Skip 30s</span></div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="section">
+                <h3>⚙️ Controls</h3>
+                <div class="row">
+                    <strong>📹 Camera</strong>
+                    <label class="toggle">
+                        <input type="checkbox" id="cameraToggle">
+                        <span class="track"></span>
+                    </label>
+                </div>
+                <div class="row">
+                    <strong>🎭 Gesture Recognition</strong>
+                    <label class="toggle">
+                        <input type="checkbox" id="gestureToggle" checked>
+                        <span class="track"></span>
+                    </label>
+                </div>
+                <div class="row" style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-subtle);">
+                    <strong>🎨 Artist Mix</strong>
+                    <label class="feature-toggle">
+                        <input type="checkbox" id="artistMixToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="row">
+                    <strong>🎵 Mood Mixer</strong>
+                    <label class="feature-toggle">
+                        <input type="checkbox" id="moodMixerToggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="row">
+    <strong>💡 Fina Recom</strong>
+    <label class="feature-toggle">
+        <input type="checkbox" id="finaRecomToggle">
+        <span class="toggle-slider"></span>
+    </label>
+</div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Windows Container - At the bottom of page -->
+<div class="windows-container">
+    <div id="artistMixWindow" class="mini-window">
+        <div class="mini-window-header">
+            <span class="mini-window-title">Artist Mix</span>
+            <button class="mini-window-close" onclick="closeArtistMix()">✕</button>
+        </div>
+        <div class="mini-window-content">
+            <iframe src="Cards/artist/index.html" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <div id="moodMixerWindow" class="mini-window">
+        <div class="mini-window-header">
+            <span class="mini-window-title">Mood Mixer</span>
+            <button class="mini-window-close" onclick="closeMoodMixer()">✕</button>
+        </div>
+        <div class="mini-window-content">
+            <iframe src="mood2/index.html" frameborder="0"></iframe>
+        </div>
+    </div>
+    <div id="finaRecomWindow" class="mini-window">
+    <div class="mini-window-header">
+        <span class="mini-window-title">Fina Recom</span>
+        <button class="mini-window-close" onclick="closeFinaRecom()">✕</button>
+    </div>
+    <div class="mini-window-content">
+        <iframe src="Fina/index.html" frameborder="0"></iframe>
+    </div>
+</div>
+
+</div>
+
+<script>
+let stream = null;
+let isGestureRecognitionActive = true;
+let gestureRecognitionInterval = null;
+let isSpotifyAuthenticated = false;
+const BACKEND_URL = 'http://localhost:3000';
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🎭 Gesture Test Page Loaded');
+    
+    const video = document.getElementById('video');
+    const overlay = document.getElementById('overlay');
+    const ctx = overlay ? overlay.getContext('2d') : null;
+    const toggleCamBtn = document.getElementById('toggleCamBtn');
+    const cameraToggle = document.getElementById('cameraToggle');
+    const gestureToggle = document.getElementById('gestureToggle');
+    const placeholder = document.getElementById('placeholder');
+    
+    if (gestureToggle) {
+        gestureToggle.checked = true;
+        isGestureRecognitionActive = true;
+    }
+    
+    async function checkBackendConnection() {
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/health`);
+            const data = await response.json();
+            console.log('✅ Backend connected');
+            const spotifyResponse = await fetch(`${BACKEND_URL}/api/spotify/status`);
+            const spotifyData = await spotifyResponse.json();
+            isSpotifyAuthenticated = spotifyData.authenticated;
+            if (spotifyData.authenticated) console.log('✅ Connected to Spotify');
+        } catch (error) {
+            console.error('❌ Backend connection failed:', error);
+        }
+    }
+    checkBackendConnection();
+
+    async function startCamera() {
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { width: { ideal: 1280 }, height: { ideal: 720 } }, 
+                audio: false 
+            });
+            video.srcObject = stream;
+            placeholder.style.display = "none";
+            toggleCamBtn.classList.add("active");
+            toggleCamBtn.classList.remove("off");
+            if (cameraToggle) cameraToggle.checked = true;
+            video.onloadedmetadata = () => {
+                resizeCanvas();
+                if (ctx) requestAnimationFrame(drawOverlay);
+            };
+            if (isGestureRecognitionActive) startGestureRecognition();
+        } catch (err) {
+            alert(`Error accessing camera: ${err.message}`);
+        }
+    }
+
+    function stopCamera() {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            stream = null;
+        }
+        video.srcObject = null;
+        placeholder.style.display = "flex";
+        toggleCamBtn.classList.remove("active");
+        toggleCamBtn.classList.add("off");
+        if (cameraToggle) cameraToggle.checked = false;
+        stopGestureRecognition();
+    }
+
+    function resizeCanvas() {
+        if (!overlay || !video) return;
+        const rect = video.getBoundingClientRect();
+        overlay.width = rect.width * devicePixelRatio;
+        overlay.height = rect.height * devicePixelRatio;
+        overlay.style.width = rect.width + "px";
+        overlay.style.height = rect.height + "px";
+        if (ctx) ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+
+    function drawOverlay() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, overlay.width, overlay.height);
+        requestAnimationFrame(drawOverlay);
+    }
+
+    async function predictGesture() {
+        if (!video.srcObject || !video.videoWidth) return;
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx2 = canvas.getContext('2d');
+        ctx2.drawImage(video, 0, 0);
+        const imageData = canvas.toDataURL('image/jpeg', 0.8);
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/gesture/predict`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: imageData })
+            });
+            if (response.ok) {
+                const result = await response.json();
+                updateGestureDisplay(result);
+                if (result.gesture && result.gesture !== 'none' && result.confidence >= 0.3)
+                    await executeSpotifyAction(result.gesture);
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    
+    function updateEmotionDisplay(emotionData) {
+        const emotionEl = document.getElementById('currentEmotion');
+        const neutralBar = document.getElementById('neutralBar');
+        const happyBar = document.getElementById('happyBar');
+        const sadBar = document.getElementById('sadBar');
+        
+        if (emotionEl) {
+            if (emotionData.detected) {
+                const dominant = Math.max(emotionData.neutral, emotionData.happy, emotionData.sad);
+                let dominantEmotion = 'neutral';
+                if (emotionData.happy === dominant) dominantEmotion = 'happy';
+                else if (emotionData.sad === dominant) dominantEmotion = 'sad';
+                
+                emotionEl.textContent = `Feeling: ${dominantEmotion} (${(dominant * 100).toFixed(0)}%)`;
+                emotionEl.style.color = dominantEmotion === 'happy' ? '#4CAF50' : 
+                                       dominantEmotion === 'sad' ? '#2196F3' : '#888';
+            } else {
+                emotionEl.textContent = 'No face detected';
+                emotionEl.style.color = '#666';
+            }
+        }
+
+        if (neutralBar) neutralBar.style.width = `${(emotionData.neutral || 0) * 100}%`;
+        if (happyBar) happyBar.style.width = `${(emotionData.happy || 0) * 100}%`;
+        if (sadBar) sadBar.style.width = `${(emotionData.sad || 0) * 100}%`;
+    }
+
+    async function executeSpotifyAction(gesture) {
+        if (!isSpotifyAuthenticated) return;
+        const gestureActions = {
+            'play_right': { action: 'play' },
+            'pause_right': { action: 'pause' },
+            'next_right': { action: 'next' },
+            'previous_right': { action: 'previous' },
+            'volume_up_left': { action: 'volume', delta: 10 },
+            'volume_down_left': { action: 'volume', delta: -10 },
+            'like_left': { action: 'like' },
+            'skip30_left': { action: 'seek', delta: 30000 }
+        };
+        const action = gestureActions[gesture];
+        if (!action) return;
+        try {
+            const response = await fetch(`${BACKEND_URL}/api/spotify/control`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(action)
+            });
+            const result = await response.json();
+            showGestureFeedback(gesture, result.ok);
+        } catch (e) {
+            showGestureFeedback(gesture, false);
+        }
+    }
+
+    function showGestureFeedback(gesture, success) {
+        const feedback = document.createElement('div');
+        feedback.className = 'gesture-feedback';
+        feedback.textContent = `${success ? '✅' : '❌'} ${gesture}`;
+        document.body.appendChild(feedback);
+        setTimeout(() => { feedback.remove(); }, 2000);
+    }
+
+    function updateGestureDisplay(result) {
+        const gestureElements = document.querySelectorAll('#currentGesture');
+        const confidenceFills = document.querySelectorAll('.confidence-fill');
+        
+        gestureElements.forEach(el => {
+            if (!result.gesture || result.gesture === 'none') {
+                el.textContent = 'No gesture detected';
+                el.style.opacity = '0.6';
+            } else {
+                el.textContent = `${result.gesture} (${(result.confidence * 100).toFixed(1)}%)`;
+                el.style.opacity = '1';
+            }
+        });
+        
+        confidenceFills.forEach(fill => {
+            const p = (result.confidence || 0) * 100;
+            fill.style.width = p + '%';
+        });
+    }
+
+    function startGestureRecognition() {
+        if (gestureRecognitionInterval) return;
+        gestureRecognitionInterval = setInterval(predictGesture, 500);
+    }
+
+    function stopGestureRecognition() {
+        if (gestureRecognitionInterval) {
+            clearInterval(gestureRecognitionInterval);
+            gestureRecognitionInterval = null;
+        }
+    }
+
+    if (toggleCamBtn) toggleCamBtn.addEventListener('click', () => {
+        stream ? stopCamera() : startCamera();
+    });
+    
+    if (cameraToggle) cameraToggle.addEventListener('change', () => {
+        cameraToggle.checked ? startCamera() : stopCamera();
+    });
+    
+    if (gestureToggle) gestureToggle.addEventListener('change', () => {
+        isGestureRecognitionActive = gestureToggle.checked;
+        if (isGestureRecognitionActive && stream) startGestureRecognition();
+        else stopGestureRecognition();
+    });
+    
+    window.addEventListener('resize', resizeCanvas);
+
+    // Toggle functionality for Artist Mix and Mood Mixer
+    const artistMixToggle = document.getElementById('artistMixToggle');
+    const moodMixerToggle = document.getElementById('moodMixerToggle');
+    const artistMixWindow = document.getElementById('artistMixWindow');
+    const moodMixerWindow = document.getElementById('moodMixerWindow');
+    const finaRecomToggle = document.getElementById('finaRecomToggle');
+    const finaRecomWindow = document.getElementById('finaRecomWindow');
+
+
+    // Artist Mix Toggle
+    if (artistMixToggle) {
+        artistMixToggle.addEventListener('change', function() {
+            if (this.checked) {
+                openArtistMix();
+            } else {
+                closeArtistMix();
+            }
+        });
+    }
+
+    // Mood Mixer Toggle
+    if (moodMixerToggle) {
+        moodMixerToggle.addEventListener('change', function() {
+            if (this.checked) {
+                openMoodMixer();
+            } else {
+                closeMoodMixer();
+            }
+        });
+    }
+
+    // Fina Recom Toggle
+if (finaRecomToggle) {
+    finaRecomToggle.addEventListener('change', function() {
+        if (this.checked) {
+            openFinaRecom();
+        } else {
+            closeFinaRecom();
+        }
+    });
+}
+
+// Fina Recom Functions
+window.openFinaRecom = function() {
+    if (finaRecomWindow) {
+        finaRecomWindow.classList.add('active');
+        document.body.style.paddingBottom = "800px"; // allow scrolling
+        setTimeout(() => {
+            finaRecomWindow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+    }
+}
+
+window.closeFinaRecom = function() {
+    if (finaRecomWindow) {
+        finaRecomWindow.classList.remove('active');
+        document.body.style.paddingBottom = "0px";
+    }
+    if (finaRecomToggle) finaRecomToggle.checked = false;
+}
+
+    window.openArtistMix = function() {
+    if (artistMixWindow) {
+        artistMixWindow.classList.add('active');
+        document.body.style.paddingBottom = "800px"; // add scroll space
+        setTimeout(() => {
+            artistMixWindow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+    }
+}
+
+window.closeArtistMix = function() {
+    if (artistMixWindow) {
+        artistMixWindow.classList.remove('active');
+        document.body.style.paddingBottom = "0px"; // reset scroll space
+    }
+    if (artistMixToggle) artistMixToggle.checked = false;
+}
+
+window.openMoodMixer = function() {
+    if (moodMixerWindow) {
+        moodMixerWindow.classList.add('active');
+        document.body.style.paddingBottom = "800px"; // add scroll space
+        setTimeout(() => {
+            moodMixerWindow.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 150);
+    }
+}
+
+window.closeMoodMixer = function() {
+    if (moodMixerWindow) {
+        moodMixerWindow.classList.remove('active');
+        document.body.style.paddingBottom = "0px"; // reset scroll space
+    }
+    if (moodMixerToggle) moodMixerToggle.checked = false;
+}
+
+});
+</script>
+</body>
+</html>

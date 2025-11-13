@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Music - Gesture Controlled</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+</head>
+<body>
+
+  <div class="container" id="main-container">
+    <!-- Top Section -->
+    <div class="top-section">
+      <a href="profile.html">
+        <div class="profile-avatar" id="profileAvatar" title="Profile">
+          <span>MK</span>
+        </div>
+      </a>
+
+      <div class="top-menu">
+        <a href="ge.html" class="nav-button-link">
+
+          <button class="nav-button" id="main-genre-energy">GE</button>
+
+        </a>
+
+        
+        <!-- Added Artist Mix button -->
+        <a href="Cards/artist/index.html" class="nav-button-link">
+
+          <button class="nav-button">Artist Mix</button>
+        </a>
+
+        <!-- Added Mood Mixer button -->
+        <a href="mood2/index.html" class="nav-button-link">
+
+          <button class="nav-button">Mood Mixer</button>
+        </a>
+
+        <a href="Fina/index.html" class="nav-button-link">
+
+          <button class="nav-button">Fina Recom
+
+          </button>
+        </a>
+      </div>
+
+      <!-- Removed Spotify status, toggle, and search -->
+
+      <div class="brand-name">MusicK</div>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="bottom-section">
+      <div class="music-columns">
+        <div class="music-column">
+          <h2>Home</h2>
+          <div class="horizontal-grid">
+            <div class="music-card">🎵</div>
+            <div class="music-card">🎵</div>
+          </div>
+        </div>
+
+        <div class="music-column">
+          <h2>Browser</h2>
+          <div class="horizontal-grid">
+            <div class="music-card" data-index="0"><img src="track1.jpg" alt="Track 1"></div>
+            <div class="music-card" data-index="1"><img src="track2.jpg" alt="Track 2"></div>
+          </div>
+        </div>
+
+        <div class="music-column">
+          <h2>Playlist</h2>
+          <div class="horizontal-grid">
+            <div class="music-card">🎵</div>
+            <div class="music-card">🎵</div>
+          </div>
+        </div>
+      </div>
+
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <nav>
+      <ul>
+        <li><button class="nav-button" id="addPlaylistBtn">Playlist</button></li>
+        <li>
+          <button class="nav-button" id="sidebar-genre-energy" onclick="location.href='ge.html'">GE</button>
+        </li>
+        <li>
+          <a href="Cards/artist/index.html"><button class="nav-button">Artist Mix</button></a>
+        </li>
+        <li>
+          <a href="mood2/index.html"><button class="nav-button">Mood Mix</button></a>
+        </li>
+        <li>
+          <a href="Fina/index.html"><button class="nav-button">Fina Recom</button></a>
+        </li>
+      </ul>
+    </nav>
+    <div class="settings-button-container">
+      <button class="settings-button" id="settingsBtn">Settings</button>
+    </div>
+  </div>
+
+  <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Toggle Sidebar">≡</button>
+
+  <!-- Playlist Modal -->
+  <div id="playlistModal" class="playlist-modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>Paste Your Playlist Link</h2>
+        <span id="closeModalBtn" class="modal-close">&times;</span>
+      </div>
+      <div class="modal-body" id="playlistLinksContainer">
+        <input type="text" class="playlist-link" placeholder="Enter playlist link">
+      </div>
+      <div class="modal-footer">
+        <button id="addAnotherLinkBtn" class="add-btn">+ Add Another</button>
+        <button id="savePlaylistsBtn" class="save-btn">Save Playlists</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="unified-gesture-controller.js"></script>
+</body>
+</html>

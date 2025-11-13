@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fina Recom - Smart Music Recommendations</title>
+    
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Ambient Effects -->
+    <div class="page-bg"></div>
+    
+    <!-- Header -->
+    <header>
+        <div style="max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 0 40px;">
+            <div style="width: 48px; height: 48px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg style="width: 24px; height: 24px; color: white;" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.369 4.369 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/>
+                </svg>
+            </div>
+            <div>
+                <h1>Fina Recom</h1>
+                <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.85); margin: 4px 0 0 0;">AI-Powered Music Discovery</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="max-width: 1400px; margin: 0 auto; padding: 48px 40px; width: 100%;">
+        
+        <!-- Status Section -->
+        <section id="status-section" style="margin-bottom: 32px;">
+            <div class="status-card">
+                <h2 class="section-title">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    System Status
+                </h2>
+                <div id="status-content">
+                    <div class="status-indicator">
+                        <div class="status-dot idle"></div>
+                        <span>Checking system status...</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile-section" class="hidden" style="margin-bottom: 32px;">
+            <div class="profile-card">
+                <h2 class="section-title">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                    </svg>
+                    Your Music Profile
+                </h2>
+                <div id="profile-content" class="stats-grid">
+                    <!-- Profile info will be loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions Section -->
+        <section id="actions-section" style="margin-bottom: 32px;">
+            <div class="actions-card">
+                <h2 class="section-title">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+                    </svg>
+                    Smart Recommendations
+                </h2>
+                
+                <!-- Generate Profile Button -->
+                <div id="generate-profile-section">
+                    <button id="generate-profile-btn" class="btn primary" style="width: 100%; max-width: 400px; margin-bottom: 16px;">
+                        <svg fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666 5.002 5.002 0 00-8.418.668 1 1 0 01-1.885-.667V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0114.001 13H11a1 1 0 110-2h3a1 1 0 011 1v3a1 1 0 11-2 0v-1.408a7.003 7.003 0 01-9.83-2.317 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                        </svg>
+                        Generate My Music Profile
+                    </button>
+                    <p class="desc-text">This will analyze your Spotify listening history and create a personalized profile.</p>
+                </div>
+
+                <!-- Recommendation Modes -->
+                <div id="recommendation-modes" class="hidden" style="margin-top: 40px;">
+                    <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 20px; color: var(--text-primary);">Choose Your Discovery Mode:</h3>
+                    <div class="recommendation-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                        
+                        <!-- Comfort Zone -->
+                        <div class="mode-card" data-mode="comfort">
+                            <div class="mode-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <h4 class="mode-title" style="color: #10b981;">Comfort Zone</h4>
+                            <p class="mode-desc">Stay close to your favorites with gentle exploration</p>
+                        </div>
+
+                        <!-- Balanced Explore -->
+                        <div class="mode-card selected" data-mode="balanced">
+                            <div class="mode-icon" style="background: rgba(102, 126, 234, 0.1); color: #667eea;">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <h4 class="mode-title" style="color: #667eea;">Balanced Explore</h4>
+                            <p class="mode-desc">Mix of familiar favorites and new discoveries</p>
+                            <div class="mode-badge">★ Recommended</div>
+                        </div>
+
+                        <!-- Full Explorer -->
+                        <div class="mode-card" data-mode="explorer">
+                            <div class="mode-icon" style="background: rgba(168, 85, 247, 0.1); color: #a855f7;">
+                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <h4 class="mode-title" style="color: #a855f7;">Full Explorer</h4>
+                            <p class="mode-desc">Maximum discovery across eras and genres</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 32px; display: flex; gap: 12px;">
+                        <button id="start-recommendations-btn" class="btn gradient" style="flex: 1; max-width: 400px;" disabled>
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                            </svg>
+                            Start Smart Recommendations
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Current Status -->
+        <section id="current-status" class="hidden" style="margin-bottom: 32px;">
+            <div class="profile-card">
+                <h2 class="section-title">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                    Current Status
+                </h2>
+                <div id="current-status-content">
+                    <!-- Status updates will be shown here -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="hidden">
+        <div class="loader-card">
+            <div class="loader-spinner"></div>
+            <p id="loading-text">Please wait while we process your request</p>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div id="message-container"></div>
+
+    <script src="fina.js"></script>
+</body>
+</html>
